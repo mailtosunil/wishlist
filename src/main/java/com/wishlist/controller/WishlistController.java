@@ -40,12 +40,8 @@ public class WishlistController {
 		LOG.info("Entered: execution starts in method addItem");
 		LOG.info(String.format("Item received to insert is: %s", item));
 		ResponseEntity<ItemForm> responseMessage = null;
-		if (item != null) {
-			ItemForm itemForm = dataService.addItemToWishlist(item);
-			responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("Item data cannot be empty", HttpStatus.BAD_REQUEST);
-		}
+		ItemForm itemForm = dataService.addItemToWishlist(item);
+		responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
 		LOG.info("Exit: execution ends in method addItem");
 		return responseMessage;
 	}
@@ -56,12 +52,8 @@ public class WishlistController {
 		LOG.info("Entered: execution starts in method deleteItem");
 		LOG.info(String.format("Item received for deletion %s", itemId));
 		ResponseEntity<ItemForm> responseMessage = null;
-		if (itemId != null && !itemId.isEmpty()) {
-			ItemForm itemForm = dataService.deleteItemFrmWishlist(itemId);
-			responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("Item Id cannot be empty", HttpStatus.BAD_REQUEST);
-		}
+		ItemForm itemForm = dataService.deleteItemFrmWishlist(itemId);
+		responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
 		LOG.info("Exit: execution ends in method deleteItem");
 		return responseMessage;
 	}
@@ -69,7 +61,7 @@ public class WishlistController {
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/wishlist/items")
 	@ResponseBody
-	public ResponseEntity fetchWishlistItems() {
+	public ResponseEntity fetchItems() {
 		LOG.info("Entered: execution starts in method fetchWishlistItems");
 		ResponseEntity wishlistRes = null;
 		List<ItemForm> wishlistItems = dataService.fetchWishlistItems();
