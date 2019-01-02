@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +28,7 @@ public class WishlistUtility {
 				BeanUtils.copyProperties(itm, currentItem);
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				LOG.error("Error occurred in addItemToWishlist while copying properties");
-				throw new ServiceException("Exception occurred while copying properties");
+				/*throw new ServiceException("Exception occurred while copying properties");*/
 			}
 			voItems.add(itm);
 		}

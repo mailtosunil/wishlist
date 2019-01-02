@@ -2,33 +2,34 @@ package com.wishlist.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  * @author bsunil
  *
  */
-@Entity
-@Table(name = "WISHLIST_ITEMS")
 public class Item implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(generator="WISHLIST_ITEM_SEQ", strategy=GenerationType.SEQUENCE)
+	
 	private Integer itemId;
-	@Column
 	private String itemName;
-	@Column
 	private Double itemValue;
-	@Column
 	private String itemImgUrl;
-	@Column
 	private String itemDesc;
+
+	
+	public Item(Integer itemId, String itemName, Double itemValue, String itemImgUrl, String itemDesc) {
+		super();
+		this.itemId = itemId;
+		this.itemName = itemName;
+		this.itemValue = itemValue;
+		this.itemImgUrl = itemImgUrl;
+		this.itemDesc = itemDesc;
+	}
+
+	public Item() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public Integer getItemId() {
 		return itemId;

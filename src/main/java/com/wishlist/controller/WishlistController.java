@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wishlist.service.ItemService;
+import com.wishlist.service.WishlistDataService;
 import com.wishlist.vo.ItemForm;
 
 /**
@@ -31,7 +31,7 @@ public class WishlistController {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
-	private ItemService itemService;
+	private WishlistDataService dataService;
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/wishlist/addItem")
@@ -41,7 +41,7 @@ public class WishlistController {
 		LOG.info(String.format("Item received to insert is: %s", item));
 		ResponseEntity<ItemForm> responseMessage = null;
 		if (item != null) {
-			ItemForm itemForm = itemService.saveItemToWishlist(item);
+			ItemForm itemForm = dataService.addItemToWishlist(item);
 			responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("Item data cannot be empty", HttpStatus.BAD_REQUEST);
@@ -57,7 +57,7 @@ public class WishlistController {
 		LOG.info(String.format("Item received for deletion %s", itemId));
 		ResponseEntity<ItemForm> responseMessage = null;
 		if (itemId != null && !itemId.isEmpty()) {
-			ItemForm itemForm = itemService.deleteItemFromWishlist(itemId);
+			ItemForm itemForm = dataService.deleteItemFrmWishlist(itemId);
 			responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("Item Id cannot be empty", HttpStatus.BAD_REQUEST);
@@ -72,7 +72,7 @@ public class WishlistController {
 	public ResponseEntity fetchWishlistItems() {
 		LOG.info("Entered: execution starts in method fetchWishlistItems");
 		ResponseEntity wishlistRes = null;
-		List<ItemForm> wishlistItems = itemService.fetchWishlistItems();
+		List<ItemForm> wishlistItems = dataService.fetchWishlistItems();
 		wishlistRes = new ResponseEntity<>(wishlistItems, HttpStatus.OK);
 		LOG.info("Exit: execution ends in method fetchWishlistItems");
 		return wishlistRes;
