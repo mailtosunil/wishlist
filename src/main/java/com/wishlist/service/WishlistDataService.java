@@ -2,10 +2,12 @@ package com.wishlist.service;
 
 import java.util.List;
 
-import com.wishlist.vo.ItemForm;
+import com.wishlist.vo.Item;
+import com.wishlist.vo.Product;
 
 public interface WishlistDataService {
-	public List<ItemForm> fetchWishlistItems();
-	public ItemForm addItemToWishlist(ItemForm itemForm);
-	public ItemForm deleteItemFrmWishlist(String itemId);
+	public List<Item> fetchWishlistItems();
+	public Item addItemToWishlist(String prodId);
+	public Item deleteItemFrmWishlist(String itemId);
+	public List<Product> products();
 }

@@ -18,14 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wishlist.service.WishlistDataService;
-import com.wishlist.vo.ItemForm;
+import com.wishlist.vo.Item;
+import com.wishlist.vo.Product;
 
 /**
  * @author bsunil
  *
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/wishlist")
 public class WishlistController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -34,39 +35,52 @@ public class WishlistController {
 	private WishlistDataService dataService;
 
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/wishlist/addItem")
+	@PostMapping("/addItem")
 	@ResponseBody
-	public ResponseEntity addItem(@RequestBody ItemForm item) {
+	public ResponseEntity addItem(@RequestBody String prodId) {
 		LOG.info("Entered: execution starts in method addItem");
-		LOG.info(String.format("Item received to insert is: %s", item));
-		ResponseEntity<ItemForm> responseMessage = null;
-		ItemForm itemForm = dataService.addItemToWishlist(item);
-		responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
+		LOG.info(String.format("Item received to insert is: %s", prodId));
+		ResponseEntity responseMessage = null;
+		Item item = dataService.addItemToWishlist(prodId);
+		responseMessage = new ResponseEntity<Item>(item, HttpStatus.OK);
 		LOG.info("Exit: execution ends in method addItem");
 		return responseMessage;
 	}
 
 	@SuppressWarnings("rawtypes")
-	@DeleteMapping("/wishlist/deleteItem/{itemId}")
-	public ResponseEntity deleteItem(@PathVariable String itemId) {
+	@DeleteMapping("/deleteItem/{id}")
+	@ResponseBody
+	public ResponseEntity deleteItem(@PathVariable String id) {
 		LOG.info("Entered: execution starts in method deleteItem");
-		LOG.info(String.format("Item received for deletion %s", itemId));
-		ResponseEntity<ItemForm> responseMessage = null;
-		ItemForm itemForm = dataService.deleteItemFrmWishlist(itemId);
-		responseMessage = new ResponseEntity<>(itemForm, HttpStatus.OK);
+		LOG.info(String.format("Item received for deletion %s", id));
+		ResponseEntity responseMessage = null;
+		Item item = dataService.deleteItemFrmWishlist(id);
+		responseMessage = new ResponseEntity<Item>(item, HttpStatus.OK);
 		LOG.info("Exit: execution ends in method deleteItem");
 		return responseMessage;
 	}
 
 	@SuppressWarnings("rawtypes")
-	@GetMapping("/wishlist/items")
+	@GetMapping("/items")
 	@ResponseBody
 	public ResponseEntity fetchItems() {
 		LOG.info("Entered: execution starts in method fetchWishlistItems");
 		ResponseEntity wishlistRes = null;
-		List<ItemForm> wishlistItems = dataService.fetchWishlistItems();
+		List<Item> wishlistItems = dataService.fetchWishlistItems();
 		wishlistRes = new ResponseEntity<>(wishlistItems, HttpStatus.OK);
 		LOG.info("Exit: execution ends in method fetchWishlistItems");
 		return wishlistRes;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/products")
+	@ResponseBody
+	public ResponseEntity fetchProducts() {
+		LOG.info("Entered: execution starts in method fetchProducts");
+		ResponseEntity productRes = null;
+		List<Product> products = dataService.products();
+		productRes = new ResponseEntity<>(products, HttpStatus.OK);
+		LOG.info("Entered: execution ends in method fetchProducts");
+		return productRes;
 	}
 }
