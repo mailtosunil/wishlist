@@ -30,16 +30,24 @@ public class WishlistDataServiceImpl implements WishlistDataService {
 
 	@Override
 	public Item addItemToWishlist(String prodId) {
-		ResponseEntity<Item> reponseOfAdd = restTemplate
-				.postForEntity("http://localhost:9090/wishlist-data-service/data/add/item", prodId, Item.class);
-		return reponseOfAdd.getBody();
+		if (prodId != null && !prodId.isEmpty()) {
+			ResponseEntity<Item> reponseOfAdd = restTemplate
+					.postForEntity("http://localhost:9090/wishlist-data-service/data/add/item", prodId, Item.class);
+			return reponseOfAdd.getBody();
+		} else {
+			throw new IllegalArgumentException("Product id cannot be empty/null");
+		}
 	}
 
 	@Override
 	public Item deleteItemFrmWishlist(String itemId) {
-		ResponseEntity<Item> reponseOfDelete = restTemplate
-				.postForEntity("http://localhost:9090/wishlist-data-service/data/delete/item", itemId, Item.class);
-		return reponseOfDelete.getBody();
+		if (itemId != null && !itemId.isEmpty()) {
+			ResponseEntity<Item> reponseOfDelete = restTemplate
+					.postForEntity("http://localhost:9090/wishlist-data-service/data/delete/item", itemId, Item.class);
+			return reponseOfDelete.getBody();
+		} else {
+			throw new IllegalArgumentException("Item id cannot be empty/null");
+		}
 	}
 
 	@Override

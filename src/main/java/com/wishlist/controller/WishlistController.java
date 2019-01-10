@@ -35,7 +35,11 @@ public class WishlistController {
 	public ResponseEntity addItem(@RequestBody String prodId) {
 		ResponseEntity responseMessage = null;
 		Item item = dataService.addItemToWishlist(prodId);
-		responseMessage = new ResponseEntity<Item>(item, HttpStatus.OK);
+		if (item != null) {
+			responseMessage = new ResponseEntity<Item>(item, HttpStatus.OK);
+		} else {
+			responseMessage = new ResponseEntity<String>("Unable to add item to wishlist", HttpStatus.NOT_MODIFIED);
+		}
 		return responseMessage;
 	}
 
@@ -45,7 +49,12 @@ public class WishlistController {
 	public ResponseEntity deleteItem(@PathVariable String id) {
 		ResponseEntity responseMessage = null;
 		Item item = dataService.deleteItemFrmWishlist(id);
-		responseMessage = new ResponseEntity<Item>(item, HttpStatus.OK);
+		if (item != null) {
+			responseMessage = new ResponseEntity<Item>(item, HttpStatus.OK);
+		} else {
+			responseMessage = new ResponseEntity<String>("Unable to delete item from wishlist",
+					HttpStatus.NOT_MODIFIED);
+		}
 		return responseMessage;
 	}
 
@@ -55,7 +64,11 @@ public class WishlistController {
 	public ResponseEntity fetchItems() {
 		ResponseEntity wishlistRes = null;
 		List<Item> wishlistItems = dataService.fetchWishlistItems();
-		wishlistRes = new ResponseEntity<>(wishlistItems, HttpStatus.OK);
+		if (wishlistItems != null && !wishlistItems.isEmpty()) {
+			wishlistRes = new ResponseEntity<List<Item>>(wishlistItems, HttpStatus.OK);
+		} else {
+			wishlistRes = new ResponseEntity<String>("No Data Found", HttpStatus.NOT_FOUND);
+		}
 		return wishlistRes;
 	}
 
@@ -65,7 +78,11 @@ public class WishlistController {
 	public ResponseEntity fetchProducts() {
 		ResponseEntity productRes = null;
 		List<Product> products = dataService.products();
-		productRes = new ResponseEntity<>(products, HttpStatus.OK);
+		if (products != null && !products.isEmpty()) {
+			productRes = new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		} else {
+			productRes = new ResponseEntity<String>("No Data Found", HttpStatus.NOT_FOUND);
+		}
 		return productRes;
 	}
 }
